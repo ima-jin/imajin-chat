@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { eq, and, isNull, gt, lt } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 import { db, conversations, participants, invites, messages } from '@/db';
 import { requireAuth } from '@/lib/auth';
 import { jsonResponse, errorResponse, generateId, hasRole } from '@/lib/utils';
@@ -9,9 +9,9 @@ import { jsonResponse, errorResponse, generateId, hasRole } from '@/lib/utils';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const inviteId = params.id;
+  const { id: inviteId } = await params;
 
   try {
     const invite = await db.query.invites.findFirst({
@@ -78,7 +78,7 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await requireAuth(request);
   if ('error' in authResult) {
@@ -86,7 +86,7 @@ export async function POST(
   }
 
   const { identity } = authResult;
-  const inviteId = params.id;
+  const { id: inviteId } = await params;
 
   try {
     const invite = await db.query.invites.findFirst({
@@ -168,7 +168,7 @@ export async function POST(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await requireAuth(request);
   if ('error' in authResult) {
@@ -176,7 +176,7 @@ export async function DELETE(
   }
 
   const { identity } = authResult;
-  const inviteId = params.id;
+  const { id: inviteId } = await params;
 
   try {
     const invite = await db.query.invites.findFirst({

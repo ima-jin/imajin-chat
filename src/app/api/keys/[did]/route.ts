@@ -9,9 +9,9 @@ import { jsonResponse, errorResponse, isValidDid } from '@/lib/utils';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { did: string } }
+  { params }: { params: Promise<{ did: string }> }
 ) {
-  const { did } = params;
+  const { did } = await params;
 
   if (!isValidDid(did)) {
     return errorResponse('Invalid DID format');

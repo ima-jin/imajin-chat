@@ -9,7 +9,7 @@ import { jsonResponse, errorResponse, generateId } from '@/lib/utils';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await requireAuth(request);
   if ('error' in authResult) {
@@ -17,7 +17,7 @@ export async function GET(
   }
 
   const { identity } = authResult;
-  const conversationId = params.id;
+  const { id: conversationId } = await params;
   
   // Pagination
   const url = new URL(request.url);
@@ -88,7 +88,7 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await requireAuth(request);
   if ('error' in authResult) {
@@ -96,7 +96,7 @@ export async function POST(
   }
 
   const { identity } = authResult;
-  const conversationId = params.id;
+  const { id: conversationId } = await params;
 
   try {
     // Check if user is a participant with write access

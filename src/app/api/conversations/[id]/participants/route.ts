@@ -9,7 +9,7 @@ import { jsonResponse, errorResponse, generateId, hasRole, isValidDid } from '@/
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await requireAuth(request);
   if ('error' in authResult) {
@@ -17,7 +17,7 @@ export async function GET(
   }
 
   const { identity } = authResult;
-  const conversationId = params.id;
+  const { id: conversationId } = await params;
 
   try {
     // Verify user is a participant
@@ -48,7 +48,7 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await requireAuth(request);
   if ('error' in authResult) {
@@ -56,7 +56,7 @@ export async function POST(
   }
 
   const { identity } = authResult;
-  const conversationId = params.id;
+  const { id: conversationId } = await params;
 
   try {
     // Check if user can invite (admin or owner)
@@ -131,7 +131,7 @@ export async function POST(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await requireAuth(request);
   if ('error' in authResult) {
@@ -139,7 +139,7 @@ export async function PATCH(
   }
 
   const { identity } = authResult;
-  const conversationId = params.id;
+  const { id: conversationId } = await params;
 
   try {
     const body = await request.json();
@@ -202,7 +202,7 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await requireAuth(request);
   if ('error' in authResult) {
@@ -210,7 +210,7 @@ export async function DELETE(
   }
 
   const { identity } = authResult;
-  const conversationId = params.id;
+  const { id: conversationId } = await params;
 
   try {
     const url = new URL(request.url);

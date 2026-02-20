@@ -6,6 +6,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
 interface Message {
@@ -72,7 +73,8 @@ function formatDateDivider(date: Date): string {
   return date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
 }
 
-export default function MessageThreadPage({ params }: { params: { id: string } }) {
+export default function MessageThreadPage() {
+  const params = useParams<{ id: string }>();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState(mockMessages);
   
