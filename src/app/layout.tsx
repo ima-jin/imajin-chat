@@ -2,8 +2,21 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Chat | Imajin',
-  description: 'Sovereign messaging for the trust network',
+  title: 'Imajin Chat',
+  description: 'End-to-end encrypted messaging for the trust network. X25519 + XChaCha20-Poly1305.',
+  keywords: ['chat', 'messaging', 'encrypted', 'E2EE', 'sovereign', 'imajin'],
+  openGraph: {
+    type: 'website',
+    url: 'https://chat.imajin.ai',
+    siteName: 'Imajin Chat',
+    title: 'Imajin Chat — Encrypted Messaging',
+    description: 'End-to-end encrypted messaging for the trust network.',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Imajin Chat',
+    description: 'End-to-end encrypted messaging for the trust network.',
+  },
 };
 
 export default function RootLayout({
