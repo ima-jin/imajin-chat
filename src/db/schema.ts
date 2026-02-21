@@ -10,6 +10,9 @@ export const conversations = pgTable('conversations', {
   description: text('description'),                             // Group description
   avatar: text('avatar'),                                       // Group avatar URL/emoji
   
+  // Context - links chat to events, orgs, etc.
+  context: jsonb('context'),                                    // { type: 'event' | 'org' | 'project', id: 'xxx' }
+  
   // Visibility & access
   visibility: text('visibility').notNull().default('private'),  // 'private' | 'trust-bound'
   trustRadius: text('trust_radius'),                            // For trust-bound: max hops
